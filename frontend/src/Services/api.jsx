@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://192.168.0.8:2880",
+  baseURL: import.meta.env.VITE_API_URL ||"http://192.168.0.8:2880",
   timeout: 10000,
 });
 
