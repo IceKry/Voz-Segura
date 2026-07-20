@@ -27,10 +27,11 @@ export const login = async (req, res) => {
     let { email, password } = req.body;
     let user = await User.findOne({ email });
 
-    if (!user)
+    if (!user){
       return res.status(404).send({
         message: "Usuario no Existe o no Encontrado, intente otra vez",
       });
+    }
 
     if (user && (await checkPassword(password, user.password))) {
       let loggedUser = {
@@ -48,6 +49,10 @@ export const login = async (req, res) => {
         token,
       });
     }
+
+    return res.status(400).send({
+      message: "Contraseña incorrecta, intente otra vez"
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).send({ message: "Error al Iniciar Sesión" });
