@@ -5,6 +5,7 @@ import helmet from "helmet";
 import cors from "cors";
 import userRoutes from "../src/User/user.routes.js";
 import reportRoutes from '../src/Reports/report.routes.js'
+import { connectDB } from "./mongo.js";
 
 //# Configs Servidor
 const app = express();
@@ -17,6 +18,16 @@ app.use(express.json());
 app.use(cors({origin:'*'}));
 app.use(helmet());
 app.use(morgan("dev"));
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error("Error conectando a MongoDB:", err);
+    res.status(500).send({ message: "Error de conexión a base de datos" });
+  }
+});
 
 //# Rutas
 app.use('/user', userRoutes)
