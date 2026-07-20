@@ -1,0 +1,6 @@
+# Almacenamiento de dependencias (Node)
+frontend/node_modules/
+backend/node_modules/
+
+# Variables de entorno
+backend/.env
